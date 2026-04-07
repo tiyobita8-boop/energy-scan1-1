@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>エネルギー状態スキャン Pro+</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+.container {
+  width: 90%;
+  max-width: 700px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+button {
+  font-size: 18px;
+  padding: 12px;
+  margin: 10px;
+  width: 80%;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.bar {
+  height: 20px;
+  background: #ddd;
+  margin: 5px 0;
+  border-radius: 10px;
+}
+
+.fill {
+  height: 100%;
+  background: #4CAF50;
+  border-radius: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🧠 エネルギー状態スキャン Pro+</h1>
+<p>感覚を選択（複数OK）</p>
+
+<div class="container">
+
+<div class="card">
+
+<label><input type="checkbox" value="だるい">だるい</label><br>
+<label><input type="checkbox" value="重い">重い</label><br>
+<label><input type="checkbox" value="眠い">眠い</label><br>
+
+<label><input type="checkbox" value="イライラ">イライラ</label><br>
+<label><input type="checkbox" value="怒り">怒り</label><br>
+<label><input type="checkbox" value="ストレス">ストレス</label><br>
+
+<label><input type="checkbox" value="不安">不安</label><br>
+<label><input type="checkbox" value="苦しさ">苦しさ</label><br>
+
+<label><input type="checkbox" value="悲しい">悲しい</label><br>
+
+<label><input type="checkbox" value="モヤモヤ">モヤモヤ</label><br>
+<label><input type="checkbox" value="焦り">焦り</label><br>
+<label><input type="checkbox" value="混乱">混乱</label><br>
+
+<label><input type="checkbox" value="無気力">無気力</label><br>
+<label><input type="checkbox" value="やりたくない">やりたくない</label><br>
+
+<label><input type="checkbox" value="口出しすぎ">口出しすぎ</label><br>
+<label><input type="checkbox" value="攻撃性">攻撃性</label><br>
+<label><input type="checkbox" value="話が聞けない">話が聞けない</label><br>
+
+<label><input type="checkbox" value="きつい">きつい</label><br>
+
+</div>
+
+<button onclick="analyze()">分析する</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+function analyze(){
+
+  const checked = Array.from(document.querySelectorAll('input:checked')).map(el => el.value);
+
+  let chakra = {"第1":0,"第2":0,"第3":0,"第4":0,"第5":0,"第6":0,"第7":0};
+  let body = {"エーテル":0,"アストラル":0,"メンタル":0,"コーザル":0};
+  let meridian = {"肝":0,"腎":0,"肺":0,"胃":0,"心":0};
+
+  checked.forEach(f => {
+
+    // 怒り系（肝・第3）
+    if(["怒り","イライラ","攻撃性","ストレス"].includes(f)){
+      meridian["肝"]+=3;
+      chakra["第3"]+=2;
+      body["アストラル"]+=1;
+    }
+
+    // 不安・恐れ（腎・第1）
+    if(["不安","苦しさ","焦り"].includes(f)){
+      meridian["腎"]+=3;
+      chakra["第1"]+=2;
+      body["アストラル"]+=2;
+    }
+
+    // 思考系（胃・第6）
+    if(["モヤモヤ","混乱","話が聞けない"].includes(f)){
+      meridian["胃"]+=2;
+      chakra["第6"]+=2;
+      body["メンタル"]+=3;
+    }
+
+    // ハート系（肺・第4）
+    if(["悲しい"].includes(f)){
+      meridian["肺"]+=3;
+      chakra["第4"]+=2;
+    }
+
+    // 行動低下（第7・コーザル）
+    if(["無気力","やりたくない"].includes(f)){
+      chakra["第7"]+=2;
+      body["コーザル"]+=2;
+    }
+
+    // 体の重さ（エーテル・第1）
+    if(["だるい","重い","眠い","きつい"].includes(f)){
+      body["エーテル"]+=3;
+      chakra["第1"]+=2;
+    }
+
+    // 表現系（第5）
+    if(["口出しすぎ"].includes(f)){
+      chakra["第5"]+=2;
+      body["メンタル"]+=1;
+    }
+
+  });
+
+  function render(title, obj){
+    let html = `<div class="card"><b>${title}</b><br>`;
+    for(let k in obj){
+      let v = obj[k];
+      html += `${k}: ${v}
+      <div class="bar"><div class="fill" style="width:${v*20}px;"></div></div>`;
+    }
+    html += "</div>";
+    return html;
+  }
+
+  document.getElementById("result").innerHTML =
+    render("チャクラ", chakra) +
+    render("エネルギー体", body) +
+    render("経絡", meridian);
+
+}
+
+</script>
+
+</body>
+</html>
