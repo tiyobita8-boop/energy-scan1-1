@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>エネルギー状態スキャン Pro+</title>
+<title>エネルギー状態スキャン</title>
 
 <style>
 body {
@@ -14,7 +14,7 @@ body {
 .container {
   width: 90%;
   max-width: 700px;
-  margin: auto;
+  margin: 20px auto;
 }
 
 .card {
@@ -26,7 +26,7 @@ body {
 
 button {
   font-size: 18px;
-  padding: 12px;
+  padding: 15px;
   margin: 10px;
   width: 80%;
   background: #4CAF50;
@@ -35,17 +35,10 @@ button {
   border-radius: 10px;
 }
 
-.bar {
-  height: 20px;
-  background: #ddd;
-  margin: 5px 0;
-  border-radius: 10px;
-}
-
-.fill {
-  height: 100%;
-  background: #4CAF50;
-  border-radius: 10px;
+.result {
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: left;
 }
 </style>
 
@@ -53,8 +46,8 @@ button {
 
 <body>
 
-<h1>🧠 エネルギー状態スキャン Pro+</h1>
-<p>感覚を選択（複数OK）</p>
+<h1>🧠 エネルギー状態スキャン</h1>
+<p>今の感覚を選択（複数OK）</p>
 
 <div class="container">
 
@@ -90,7 +83,7 @@ button {
 
 <button onclick="analyze()">分析する</button>
 
-<div id="result"></div>
+<div class="result" id="result"></div>
 
 </div>
 
@@ -100,75 +93,117 @@ function analyze(){
 
   const checked = Array.from(document.querySelectorAll('input:checked')).map(el => el.value);
 
-  let chakra = {"第1":0,"第2":0,"第3":0,"第4":0,"第5":0,"第6":0,"第7":0};
-  let body = {"エーテル":0,"アストラル":0,"メンタル":0,"コーザル":0};
-  let meridian = {"肝":0,"腎":0,"肺":0,"胃":0,"心":0};
+  let chakra = [];
+  let meridian = [];
+  let body = [];
+  let subconscious = [];
+  let healing = [];
+  let action = [];
 
   checked.forEach(f => {
 
-    // 怒り系（肝・第3）
+    // 怒り系
     if(["怒り","イライラ","攻撃性","ストレス"].includes(f)){
-      meridian["肝"]+=3;
-      chakra["第3"]+=2;
-      body["アストラル"]+=1;
+      chakra.push("第3チャクラ");
+      meridian.push("肝経");
+      body.push("アストラル体");
+
+      subconscious.push("コントロールしなければならない");
+      subconscious.push("自分が正しい");
+
+      healing.push("みぞおち（第3チャクラ）に宇宙エネルギーを流す");
+      action.push("深呼吸・体を動かす");
     }
 
-    // 不安・恐れ（腎・第1）
+    // 不安系
     if(["不安","苦しさ","焦り"].includes(f)){
-      meridian["腎"]+=3;
-      chakra["第1"]+=2;
-      body["アストラル"]+=2;
+      chakra.push("第1チャクラ");
+      meridian.push("腎経");
+      body.push("アストラル体");
+
+      subconscious.push("守られていない");
+      subconscious.push("未来は危険");
+
+      healing.push("下腹・足にエネルギーを流す");
+      action.push("ゆっくり呼吸・安心に意識");
     }
 
-    // 思考系（胃・第6）
+    // 思考系
     if(["モヤモヤ","混乱","話が聞けない"].includes(f)){
-      meridian["胃"]+=2;
-      chakra["第6"]+=2;
-      body["メンタル"]+=3;
+      chakra.push("第6チャクラ");
+      meridian.push("胃経");
+      body.push("メンタル体");
+
+      subconscious.push("考えないといけない");
+      subconscious.push("間違えてはいけない");
+
+      healing.push("眉間にエネルギーを流す");
+      action.push("ぼーっとする・情報を遮断");
     }
 
-    // ハート系（肺・第4）
-    if(["悲しい"].includes(f)){
-      meridian["肺"]+=3;
-      chakra["第4"]+=2;
-    }
-
-    // 行動低下（第7・コーザル）
+    // 無気力
     if(["無気力","やりたくない"].includes(f)){
-      chakra["第7"]+=2;
-      body["コーザル"]+=2;
+      chakra.push("第7チャクラ");
+      body.push("コーザル体");
+
+      subconscious.push("意味がない");
+      subconscious.push("どうせ無理");
+
+      healing.push("頭頂にエネルギーを流す");
+      action.push("目的を思い出す・軽く行動");
     }
 
-    // 体の重さ（エーテル・第1）
+    // 体疲労
     if(["だるい","重い","眠い","きつい"].includes(f)){
-      body["エーテル"]+=3;
-      chakra["第1"]+=2;
+      chakra.push("第1チャクラ");
+      body.push("エーテル体");
+
+      subconscious.push("休んではいけない");
+      subconscious.push("頑張らないといけない");
+
+      healing.push("全身にエネルギーを流す");
+      action.push("睡眠・水・休息");
     }
 
-    // 表現系（第5）
+    // 表現系
     if(["口出しすぎ"].includes(f)){
-      chakra["第5"]+=2;
-      body["メンタル"]+=1;
+      chakra.push("第5チャクラ");
+      body.push("メンタル体");
+
+      subconscious.push("言わないとダメ");
+      subconscious.push("正さないといけない");
+
+      healing.push("喉にエネルギーを流す");
+      action.push("一呼吸おく・聞く意識");
     }
 
   });
 
-  function render(title, obj){
-    let html = `<div class="card"><b>${title}</b><br>`;
-    for(let k in obj){
-      let v = obj[k];
-      html += `${k}: ${v}
-      <div class="bar"><div class="fill" style="width:${v*20}px;"></div></div>`;
-    }
-    html += "</div>";
-    return html;
-  }
+  // 重複削除
+  chakra = [...new Set(chakra)];
+  meridian = [...new Set(meridian)];
+  body = [...new Set(body)];
+  subconscious = [...new Set(subconscious)];
+  healing = [...new Set(healing)];
+  action = [...new Set(action)];
 
-  document.getElementById("result").innerHTML =
-    render("チャクラ", chakra) +
-    render("エネルギー体", body) +
-    render("経絡", meridian);
+  document.getElementById("result").innerHTML = `
+  <div class="card">
+  <b>▼乱れている可能性</b><br><br>
+  チャクラ：${chakra.join(" / ")}<br>
+  経絡：${meridian.join(" / ")}<br>
+  エネルギー体：${body.join(" / ")}<br><br>
 
+  <b>▼修復・変換する潜在意識</b><br>
+  ${subconscious.map(s => "・"+s).join("<br>")}<br><br>
+
+  <b>▼ヒーリング</b><br>
+  ${healing.map(h => "・"+h).join("<br>")}<br><br>
+
+  <b>▼具体的行動</b><br>
+  ${action.map(a => "・"+a).join("<br>")}
+  </div>
+  `;
 }
 
 </script>
