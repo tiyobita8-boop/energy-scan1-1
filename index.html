@@ -2,13 +2,13 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>エネルギー状態スキャン</title>
+<title>エネルギー状態スキャン1-1</title>
 
 <style>
 body {
-  font-family: sans-serif;
+  font-family: "Hiragino Maru Gothic ProN", sans-serif;
   text-align: center;
-  background: #f5f5f5;
+  background: #fff7fb;
 }
 
 .container {
@@ -20,192 +20,182 @@ body {
 .card {
   background: white;
   padding: 15px;
-  margin: 10px;
-  border-radius: 10px;
+  margin: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+h1 {
+  color: #ff7eb3;
+}
+
+h3 {
+  color: #666;
 }
 
 button {
-  font-size: 18px;
+  font-size: 20px;
   padding: 15px;
-  margin: 10px;
-  width: 80%;
-  background: #4CAF50;
+  margin: 15px;
+  width: 90%;
+  background: linear-gradient(45deg, #ff9ecf, #ffc3a0);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 30px;
 }
 
 .result {
   margin-top: 20px;
   font-size: 16px;
-  text-align: left;
+}
+
+.label {
+  display: block;
+  margin: 5px;
+}
+
+.section-title {
+  font-size: 18px;
+  margin-top: 10px;
 }
 </style>
-
 </head>
 
 <body>
 
-<h1>🧠 エネルギー状態スキャン</h1>
-<p>今の感覚を選択（複数OK）</p>
+<h1>🌸エネルギーふんわりスキャン🌸</h1>
+<p>今の気分をぽちっと選んでね（直感でOK✨）</p>
 
 <div class="container">
 
 <div class="card">
+<h3>🌧ちょっとお疲れモード（最大3つ）</h3>
 
-<label><input type="checkbox" value="だるい">だるい</label><br>
-<label><input type="checkbox" value="重い">重い</label><br>
-<label><input type="checkbox" value="眠い">眠い</label><br>
-
-<label><input type="checkbox" value="イライラ">イライラ</label><br>
-<label><input type="checkbox" value="怒り">怒り</label><br>
-<label><input type="checkbox" value="ストレス">ストレス</label><br>
-
-<label><input type="checkbox" value="不安">不安</label><br>
-<label><input type="checkbox" value="苦しさ">苦しさ</label><br>
-
-<label><input type="checkbox" value="悲しい">悲しい</label><br>
-
-<label><input type="checkbox" value="モヤモヤ">モヤモヤ</label><br>
-<label><input type="checkbox" value="焦り">焦り</label><br>
-<label><input type="checkbox" value="混乱">混乱</label><br>
-
-<label><input type="checkbox" value="無気力">無気力</label><br>
-<label><input type="checkbox" value="やりたくない">やりたくない</label><br>
-
-<label><input type="checkbox" value="口出しすぎ">口出しすぎ</label><br>
-<label><input type="checkbox" value="攻撃性">攻撃性</label><br>
-<label><input type="checkbox" value="話が聞けない">話が聞けない</label><br>
-
-<label><input type="checkbox" value="きつい">きつい</label><br>
+<label class="label"><input type="checkbox" value="だるい"> だるい</label>
+<label class="label"><input type="checkbox" value="イライラ"> イライラ</label>
+<label class="label"><input type="checkbox" value="不安"> 不安</label>
+<label class="label"><input type="checkbox" value="悲しい"> 悲しい</label>
+<label class="label"><input type="checkbox" value="モヤモヤ"> モヤモヤ</label>
+<label class="label"><input type="checkbox" value="無気力"> 無気力</label>
+<label class="label"><input type="checkbox" value="焦り"> 焦り</label>
+<label class="label"><input type="checkbox" value="孤独"> 孤独</label>
+<label class="label"><input type="checkbox" value="自己否定"> 自己否定</label>
+<label class="label"><input type="checkbox" value="疲労"> 疲労</label>
+<label class="label"><input type="checkbox" value="やる気が出ない"> やる気が出ない</label>
 
 </div>
 
-<button onclick="analyze()">分析する</button>
+<div class="card">
+<h3>🌈いい感じモード（最大5つ）</h3>
+
+<label class="label"><input type="checkbox" value="楽しい"> 楽しい</label>
+<label class="label"><input type="checkbox" value="感謝"> 感謝</label>
+<label class="label"><input type="checkbox" value="安心"> 安心</label>
+<label class="label"><input type="checkbox" value="愛"> 愛</label>
+<label class="label"><input type="checkbox" value="ついてる"> ついてる</label>
+<label class="label"><input type="checkbox" value="明確"> 明確</label>
+<label class="label"><input type="checkbox" value="ワクワク"> ワクワク</label>
+<label class="label"><input type="checkbox" value="軽い"> 軽い</label>
+<label class="label"><input type="checkbox" value="満たされている"> 満たされている</label>
+<label class="label"><input type="checkbox" value="集中できる"> 集中できる</label>
+<label class="label"><input type="checkbox" value="流れに乗っている"> 流れに乗っている</label>
+
+</div>
+
+<button onclick="analyze()">✨ふんわり分析する✨</button>
 
 <div class="result" id="result"></div>
 
 </div>
 
 <script>
-
 function analyze(){
 
   const checked = Array.from(document.querySelectorAll('input:checked')).map(el => el.value);
 
-  let chakra = [];
-  let meridian = [];
-  let body = [];
-  let subconscious = [];
-  let healing = [];
-  let action = [];
+  let chakra=[], body=[], advice=[], subconscious=[], good=[];
 
   checked.forEach(f => {
 
-    // 怒り系
-    if(["怒り","イライラ","攻撃性","ストレス"].includes(f)){
-      chakra.push("第3チャクラ");
-      meridian.push("肝経");
-      body.push("アストラル体");
-
-      subconscious.push("コントロールしなければならない");
-      subconscious.push("自分が正しい");
-
-      healing.push("みぞおち（第3チャクラ）に宇宙エネルギーを流す");
-      action.push("深呼吸・体を動かす");
-    }
-
-    // 不安系
-    if(["不安","苦しさ","焦り"].includes(f)){
-      chakra.push("第1チャクラ");
-      meridian.push("腎経");
-      body.push("アストラル体");
-
-      subconscious.push("守られていない");
-      subconscious.push("未来は危険");
-
-      healing.push("下腹・足にエネルギーを流す");
-      action.push("ゆっくり呼吸・安心に意識");
-    }
-
-    // 思考系
-    if(["モヤモヤ","混乱","話が聞けない"].includes(f)){
-      chakra.push("第6チャクラ");
-      meridian.push("胃経");
-      body.push("メンタル体");
-
-      subconscious.push("考えないといけない");
-      subconscious.push("間違えてはいけない");
-
-      healing.push("眉間にエネルギーを流す");
-      action.push("ぼーっとする・情報を遮断");
-    }
-
-    // 無気力
-    if(["無気力","やりたくない"].includes(f)){
-      chakra.push("第7チャクラ");
-      body.push("コーザル体");
-
-      subconscious.push("意味がない");
-      subconscious.push("どうせ無理");
-
-      healing.push("頭頂にエネルギーを流す");
-      action.push("目的を思い出す・軽く行動");
-    }
-
-    // 体疲労
-    if(["だるい","重い","眠い","きつい"].includes(f)){
+    if(["だるい","疲労","やる気が出ない"].includes(f)){
       chakra.push("第1チャクラ");
       body.push("エーテル体");
-
-      subconscious.push("休んではいけない");
-      subconscious.push("頑張らないといけない");
-
-      healing.push("全身にエネルギーを流す");
-      action.push("睡眠・水・休息");
+      subconscious.push("頑張らないとダメ","休んではいけない");
     }
 
-    // 表現系
-    if(["口出しすぎ"].includes(f)){
-      chakra.push("第5チャクラ");
+    if(["イライラ","悲しい","孤独"].includes(f)){
+      chakra.push("第2・4チャクラ");
+      body.push("アストラル体");
+      subconscious.push("愛されない","感情を出してはいけない");
+    }
+
+    if(["モヤモヤ","不安","焦り","自己否定"].includes(f)){
+      chakra.push("第3・6チャクラ");
       body.push("メンタル体");
-
-      subconscious.push("言わないとダメ");
-      subconscious.push("正さないといけない");
-
-      healing.push("喉にエネルギーを流す");
-      action.push("一呼吸おく・聞く意識");
+      subconscious.push("正しくないとダメ","失敗できない");
     }
+
+    if(["無気力"].includes(f)){
+      chakra.push("第7チャクラ");
+      body.push("コーザル体");
+      subconscious.push("どうせ無理","意味がない");
+    }
+
+    if(["安心","軽い"].includes(f)) good.push("第1チャクラ✨");
+    if(["楽しい","ワクワク","満たされている"].includes(f)) good.push("第2チャクラ✨");
+    if(["集中できる"].includes(f)) good.push("第3チャクラ✨");
+    if(["愛","感謝"].includes(f)) good.push("第4チャクラ✨");
+    if(["明確"].includes(f)) good.push("第6チャクラ✨");
+    if(["ついてる","流れに乗っている"].includes(f)) good.push("第7チャクラ✨");
 
   });
 
-  // 重複削除
-  chakra = [...new Set(chakra)];
-  meridian = [...new Set(meridian)];
-  body = [...new Set(body)];
-  subconscious = [...new Set(subconscious)];
-  healing = [...new Set(healing)];
-  action = [...new Set(action)];
+  chakra=[...new Set(chakra)];
+  body=[...new Set(body)];
+  subconscious=[...new Set(subconscious)];
+  good=[...new Set(good)];
 
-  document.getElementById("result").innerHTML = `
-  <div class="card">
-  <b>▼乱れている可能性</b><br><br>
-  チャクラ：${chakra.join(" / ")}<br>
-  経絡：${meridian.join(" / ")}<br>
-  エネルギー体：${body.join(" / ")}<br><br>
+  if(chakra.length > 0){
 
-  <b>▼修復・変換する潜在意識</b><br>
-  ${subconscious.map(s => "・"+s).join("<br>")}<br><br>
+    if(body.includes("エーテル体")) advice.push("ゆっくり休む・お水飲む💧");
+    if(body.includes("アストラル体")) advice.push("気持ちを書き出す📝");
+    if(body.includes("メンタル体")) advice.push("ぼーっとタイム☁️");
+    if(body.includes("コーザル体")) advice.push("やりたいこと思い出す🌈");
 
-  <b>▼ヒーリング</b><br>
-  ${healing.map(h => "・"+h).join("<br>")}<br><br>
+    document.getElementById("result").innerHTML = `
+    <div class="card">
 
-  <b>▼具体的行動</b><br>
-  ${action.map(a => "・"+a).join("<br>")}
-  </div>
-  `;
+    <div class="section-title">🧡軽やかに整えちゃおうポイント</div>
+    ${chakra.join(" / ")}<br>${body.join(" / ")}<br><br>
+
+    <div class="section-title">💫ゆるっと整えるヒント</div>
+    ${subconscious.slice(0,2).join("<br>")}<br><br>
+
+    <div class="section-title">💚ワンポイントアドバイス</div>
+    ${advice.join("<br>")}
+
+    </div>
+    `;
+  }
+
+  else{
+
+    document.getElementById("result").innerHTML = `
+    <div class="card">
+
+    <div class="section-title">🌈今とってもいい感じ✨</div>
+    ${good.join(" / ") || "全体バランスgood✨"}<br><br>
+
+    <div class="section-title">💫さらに伸びるコツ</div>
+    ・その気分をしっかり味わう✨<br>
+    ・ありがとうを増やす🌸<br>
+    ・直感で動いてOK💫
+
+    </div>
+    `;
+  }
+
 }
-
 </script>
 
 </body>
